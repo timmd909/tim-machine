@@ -1,0 +1,10 @@
+---
+#
+# Main installation
+#
+- hosts: kinen
+  sudo: yes
+  tasks:
+    - include: tasks/tools.yml
+    - include: tasks/networking.yml
+

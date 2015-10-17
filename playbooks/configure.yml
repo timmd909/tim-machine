@@ -1,0 +1,9 @@
+---
+
+#
+# Configure system settings
+#
+#- hosts: kinen
+#  sudo: yes
+#  tasks:
+#    - blah blah
