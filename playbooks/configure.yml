@@ -7,7 +7,7 @@
   sudo: yes
   tasks:
 
-  - file: path=/srv/tim-machine state=directory
+  - file: path=/srv/tim-machine state=directory owner=tim group=tim
 
   - copy: dest=/etc/nsswitch.conf src=files/etc/nsswitch.conf
   - copy: dest=/etc/avahi/services/afpd.service src=files/etc/avahi/services/afpd.service
