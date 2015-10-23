@@ -3,7 +3,15 @@
 #
 # Configure system settings
 #
-#- hosts: kinen
-#  sudo: yes
-#  tasks:
-#    - blah blah
+- hosts: kinen
+  sudo: yes
+  tasks:
+
+  - file: path=/srv/tim-machine state=directory
+
+  - copy: dest=/etc/nsswitch.conf src=files/etc/nsswitch.conf
+  - copy: dest=/etc/avahi/services/afpd.service src=files/etc/avahi/services/afpd.service
+  - copy: dest=/etc/netatalk/AppleVolumes.default src=files/etc/netatalk/AppleVolumes.default
+  - copy: dest=/etc/default/netatalk src=files/etc/default/netatalk
+
+
