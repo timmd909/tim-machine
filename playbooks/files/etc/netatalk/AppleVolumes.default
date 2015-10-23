@@ -176,6 +176,6 @@
 # By default all users have access to their home directories.
 #~/			"Home Directory"
 
-/srv/tim-machine "Tim Capsule" options:tm volsizelimit:500000
+/srv/tim-machine "Tim Capsule" options:tm volsizelimit:450000
 
 # End of File
