@@ -2,7 +2,7 @@
 #
 # Main installation
 #
-- hosts: kinen
+- hosts: timmachines
   sudo: yes
   tasks:
     - include: tasks/tools.yml

@@ -3,7 +3,7 @@
 #
 # Configure system settings
 #
-- hosts: kinen
+- hosts: timmachines
   sudo: yes
   tasks:
 

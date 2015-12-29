@@ -1,5 +1,5 @@
 ---
-- hosts: catpoo
+- hosts: timmachines
   sudo: yes
   tasks:
     - name: Update APT
