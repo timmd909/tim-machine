@@ -7,7 +7,7 @@
 # todo: set the hostname
 
 # Make sure that LightDM doesn't autologin anyone
-- replace:
-  - dest: /etc/lightdm/lightdm.conf
-  - regexp: '^(autologin-user.*)$'
-  - replace: '#\1'
+- name: Disable LightDM auto-login
+  replace: dest=/etc/lightdm/lightdm.conf regexp='^(autologin-user.*)$' replace='#\1'
+- name: Restart LightDM
+  command: sudo service lightdm restart

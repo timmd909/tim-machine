@@ -1,4 +1,20 @@
 #
+# Make sure the Raspberry Pi user is disabled (TODO: wipe it out completely)
+#
+- name: Disable Raspberry Pi user
+  user: name=pi shell=/bin/false password=locked
+- name: Remove group memberships
+  user: name=pi group=pi groups=pi append=no
+#- name: "Kill all processes belonging to 'pi'"
+#  command: pkill -u pi
+#- name: Remove default Raspberry Pi user
+#  user: name=pi state=absent remove=yes
+#- name: Remove Raspberry Pi group
+#  user: group=pi state=absent remove=yes
+#- name: Remove old pi home directory
+#  file: path=/home/pi recurse=yes
+
+#
 # Configure the "tim" user
 #
 - name: "Setup user 'tim' (Groups)"
@@ -18,11 +34,3 @@
     - sudo
     - users
     - video
-
-#
-# Make sure the Raspberry Pi user is wiped out
-#
-- name: Remove default Raspberry Pi user
-  user: name=pi state=absent remove=yes
-- name: Remove Raspberry Pi group
-  user: group=pi state=absent remove=yes
