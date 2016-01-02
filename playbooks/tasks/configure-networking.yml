@@ -1,0 +1,18 @@
+- copy: dest=/etc/iptables.rules src=files/etc/iptables.rules
+- copy: dest=/etc/network/interfaces src=files/etc/network/interfaces
+
+#
+# ConFigure /etc/network/interfaces
+#
+- name: Configure network address
+  replace: dest=/etc/network/interfaces regexp="NETWORK_ADDRESS" replace="{{ NETWORK_ADDRESS }}"
+- name: Configure network mask
+  replace: dest=/etc/network/interfaces regexp="NETWORK_NETMASK" replace="{{ NETWORK_NETMASK }}"
+- name: Configure network
+  replace: dest=/etc/network/interfaces regexp="NETWORK_NETWORK" replace="{{ NETWORK_NETWORK }}"
+- name: Configure network broadcast
+  replace: dest=/etc/network/interfaces regexp="NETWORK_BROADCAST" replace="{{ NETWORK_BROADCAST }}"
+- name: Configure network nameservers
+  replace: dest=/etc/network/interfaces regexp="NETWORK_DNS_NAMESERVERS" replace="{{ NETWORK_DNS_NAMESERVERS }}"
+- name: Configure network broadcast
+  replace: dest=/etc/network/interfaces regexp="NETWORK_DNS_SEARCH" replace="{{ NETWORK_DNS_SEARCH }}"

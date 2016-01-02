@@ -2,7 +2,10 @@
 
 - hosts: timmachines
   sudo: yes
+  vars_files:
+    - "../ansible/machines/{{ HOSTNAME }}.yml"
   tasks:
     - include: tasks/configure-system.yml
+    - include: tasks/configure-networking.yml
     - include: tasks/configure-users.yml
     - include: tasks/configure-time-machine.yml

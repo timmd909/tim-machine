@@ -13,18 +13,19 @@ iface lo inet loopback
 # Intenet Facing Device
 #
 iface eth0 inet manual
+  pre-up iptables-restore < /etc/iptables.rules
 
 #
 # Private Facing Device
 #
 auto eth1
 iface eth1 inet static
-  address 10.0.0.1
-  netmask 255.255.255.0
-  network 10.0.0.0
-  broadcast 10.0.0.255
-  dns-nameservers 10.0.0.1
-  dns-search tim-doerzbacher.com
+  address NETWORK_ADDRESS
+  netmask NETWORK_NETMASK
+  network NETWORK_NETWORK
+  broadcast NETWORK_BROADCAST
+  dns-nameservers NETWORK_DNS_NAMESERVERS
+  dns-search NETWORK_DNS_SEARCH
 iface eth1 inet6 auto
 
 #
