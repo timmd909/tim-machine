@@ -1,0 +1,28 @@
+#
+# Configure the "tim" user
+#
+- name: "Setup user 'tim' (Groups)"
+  user: "name=tim append=yes groups={{ item }}"
+  with_items:
+    - adm
+    - audio
+    - cdrom
+    - dialout
+    - games
+    - gpio
+    - i2c
+    - input
+    - netdev
+    - plugdev
+    - spi
+    - sudo
+    - users
+    - video
+
+#
+# Make sure the Raspberry Pi user is wiped out
+#
+- name: Remove default Raspberry Pi user
+  user: name=pi state=absent remove=yes
+- name: Remove Raspberry Pi group
+  user: group=pi state=absent remove=yes

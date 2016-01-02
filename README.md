@@ -1,5 +1,7 @@
-# tim-machine
-Tim's Time Machine
+# tim-machine — Tim's <del>Time</del> Machine
+
+This project is being used to do basic setup and install of Raspberry Pi
+based custom routers.
 
 
 ## References

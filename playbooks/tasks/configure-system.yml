@@ -1,0 +1,13 @@
+#
+# Configure basic system settings
+#
+
+- copy: dest=/etc/sysctl.conf src=files/etc/sysctl.conf
+
+# todo: set the hostname
+
+# Make sure that LightDM doesn't autologin anyone
+- replace:
+  - dest: /etc/lightdm/lightdm.conf
+  - regexp: '^(autologin-user.*)$'
+  - replace: '#\1'

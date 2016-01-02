@@ -1,0 +1,41 @@
+#
+# Packages for traditional router functionality (DHCPD, DNS, etc)
+#
+
+- name: Install basic networking packages packages
+  apt: name={{ item }}
+  with_items:
+    - isc-dhcp-server
+    - iptables
+    - bind9
+    - bridge-utils
+
+#
+# Packages to be installed in this section are based on instructions
+# from http://ubuntuforums.org/showthread.php?t=2105755
+#
+
+- name: Install Time Machine support packages
+  apt: name={{ item }}
+  with_items:
+    - netatalk
+    - libc6-dev
+    - avahi-daemon
+    - libnss-mdns
+
+#
+# Wireless Access Point Support
+#
+- name: Install hostapd
+  apt: name=hostapd
+
+- name: Update hostapd
+  command: "{{ item }}"
+  with_items:
+    - wget http://adafruit-download.s3.amazonaws.com/adafruit_hostapd_14128.zip
+    - unzip adafruit_hostapd_14128.zip
+    - chown root.root hostapd
+    - chmod +x hostapd
+    - mv hostapd /usr/sbin/hostapd
+    - rm adafruit_hostapd_14128.zip
+

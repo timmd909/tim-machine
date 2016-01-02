@@ -5,6 +5,6 @@
 - hosts: timmachines
   sudo: yes
   tasks:
-    - include: tasks/tools.yml
-    - include: tasks/networking.yml
+    - include: tasks/install-tools.yml
+    - include: tasks/install-networking.yml
 
