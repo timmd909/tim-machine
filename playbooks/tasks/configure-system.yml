@@ -4,10 +4,26 @@
 
 - copy: dest=/etc/sysctl.conf src=files/etc/sysctl.conf
 
-# todo: set the hostname
+#
+# Set the hostname
+#
+- name: Set hostname (Step 1)
+  copy: dest=/etc/hostname src=files/etc/hostname
+- name: Set hostname (Step 2)
+  replace: dest=/etc/hostname regexp="HOSTNAME" replace="{{ HOSTNAME }}"
+- name: Set hostname (Step 3)
+  command: "hostname {{ HOSTNAME }}"
 
+#
 # Make sure that LightDM doesn't autologin anyone
+#
 - name: Disable LightDM auto-login
   replace: dest=/etc/lightdm/lightdm.conf regexp='^(autologin-user.*)$' replace='#\1'
 - name: Restart LightDM
-  command: sudo service lightdm restart
+  command: service lightdm restart
+
+#
+# Miscellaneous
+#
+- name: Fix ping command
+  command: sudo chmod u+s /bin/ping

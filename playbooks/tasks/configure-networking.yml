@@ -1,3 +1,4 @@
+- copy: dest=/etc/fstab src=files/etc/fstab
 - copy: dest=/etc/iptables.rules src=files/etc/iptables.rules
 - copy: dest=/etc/network/interfaces src=files/etc/network/interfaces
 
@@ -16,3 +17,58 @@
   replace: dest=/etc/network/interfaces regexp="NETWORK_DNS_NAMESERVERS" replace="{{ NETWORK_DNS_NAMESERVERS }}"
 - name: Configure network broadcast
   replace: dest=/etc/network/interfaces regexp="NETWORK_DNS_SEARCH" replace="{{ NETWORK_DNS_SEARCH }}"
+
+#
+# Configure network drives
+#
+- name: Create Time Machine mount point
+  when: TIME_MACHINE_ENABLED
+  file: path="{{ TIME_MACHINE_MOUNT_POINT }}" state=directory mode=0777
+- name: Mount Time Machine at boot
+  when: TIME_MACHINE_ENABLED
+  lineinfile: dest="/etc/fstab" line="{{ TIME_MACHINE_DRIVE }} {{ TIME_MACHINE_MOUNT_POINT }} ext4  defaults,nobootwait 0 0"
+
+- name: Create Shared mount point
+  when: SHARED_ENABLED
+  file: path="{{ SHARED_MOUNT_POINT }}" state=directory mode=0777
+- name: Mount Shared at boot
+  when: SHARED_ENABLED
+  lineinfile: dest="/etc/fstab" line="{{ SHARED_DRIVE }} {{ SHARED_MOUNT_POINT }} ext4  defaults,nobootwait 0 0"
+
+- name: Make sure new drives are mounted
+  command: mount -a
+
+#
+# Copy base Apple networking files
+#
+- copy: dest=/etc/nsswitch.conf src=files/etc/nsswitch.conf
+- copy: dest=/etc/avahi/services/afpd.service src=files/etc/avahi/services/afpd.service
+- copy: dest=/etc/netatalk/AppleVolumes.default src=files/etc/netatalk/AppleVolumes.default
+- copy: dest=/etc/netatalk/afpd.conf src=files/etc/netatalk/afpd.conf
+- copy: dest=/etc/default/netatalk src=files/etc/default/netatalk
+
+#
+# Configure Time Machine functionality
+#
+- replace: dest=/etc/netatalk/AppleVolumes.default regexp="TIME_MACHINE_MOUNT_POINT" replace="{{ TIME_MACHINE_MOUNT_POINT }}"
+  when: TIME_MACHINE_ENABLED
+
+- name: Disable Time Machine functionality
+  replace: dest=/etc/netatalk/AppleVolumes.default regexp="TIME_MACHINE_MOUNT_POINT.*" replace="# Time machine disabled"
+  when: not TIME_MACHINE_ENABLED
+
+#
+# Configure shared drive functionality
+#
+- replace: dest=/etc/netatalk/AppleVolumes.default regexp="SHARED_MOUNT_POINT" replace="{{ SHARED_MOUNT_POINT }}"
+  when: SHARED_ENABLED
+
+- name: Disable Time Machine functionality
+  replace: dest=/etc/netatalk/AppleVolumes.default regexp="SHARED_MOUNT_POINT.*" replace="# Shared drive disabled"
+  when: not SHARED_ENABLED
+
+#
+# Restarting Netatalk
+#
+- name: Restart netatalk
+  command: service netatalk restart
