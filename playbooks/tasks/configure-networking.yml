@@ -1,4 +1,3 @@
-- copy: dest=/etc/fstab src=files/etc/fstab
 - copy: dest=/etc/iptables.rules src=files/etc/iptables.rules
 - copy: dest=/etc/network/interfaces src=files/etc/network/interfaces
 
@@ -17,26 +16,6 @@
   replace: dest=/etc/network/interfaces regexp="NETWORK_DNS_NAMESERVERS" replace="{{ NETWORK_DNS_NAMESERVERS }}"
 - name: Configure network broadcast
   replace: dest=/etc/network/interfaces regexp="NETWORK_DNS_SEARCH" replace="{{ NETWORK_DNS_SEARCH }}"
-
-#
-# Configure network drives
-#
-- name: Create Time Machine mount point
-  when: TIME_MACHINE_ENABLED
-  file: path="{{ TIME_MACHINE_MOUNT_POINT }}" state=directory mode=0777
-- name: Mount Time Machine at boot
-  when: TIME_MACHINE_ENABLED
-  lineinfile: dest="/etc/fstab" line="{{ TIME_MACHINE_DRIVE }} {{ TIME_MACHINE_MOUNT_POINT }} ext4  defaults,nobootwait 0 0"
-
-- name: Create Shared mount point
-  when: SHARED_ENABLED
-  file: path="{{ SHARED_MOUNT_POINT }}" state=directory mode=0777
-- name: Mount Shared at boot
-  when: SHARED_ENABLED
-  lineinfile: dest="/etc/fstab" line="{{ SHARED_DRIVE }} {{ SHARED_MOUNT_POINT }} ext4  defaults,nobootwait 0 0"
-
-- name: Make sure new drives are mounted
-  command: mount -a
 
 #
 # Copy base Apple networking files

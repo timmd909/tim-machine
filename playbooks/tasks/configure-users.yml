@@ -34,3 +34,9 @@
     - sudo
     - users
     - video
+
+#
+# Add a user for network shares
+#
+- name: "Setup networking user"
+  user: name="{{ NETWORK_USERNAME }}" state=present password="{{ NETWORK_PASSWORD }}"

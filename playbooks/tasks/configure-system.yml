@@ -3,6 +3,7 @@
 #
 
 - copy: dest=/etc/sysctl.conf src=files/etc/sysctl.conf
+- copy: dest=/etc/fstab src=files/etc/fstab
 
 #
 # Set the hostname
@@ -27,3 +28,24 @@
 #
 - name: Fix ping command
   command: sudo chmod u+s /bin/ping
+
+#
+# Configure network drives
+#
+- name: Create Time Machine mount point
+  when: TIME_MACHINE_ENABLED
+  file: path="{{ TIME_MACHINE_MOUNT_POINT }}" state=directory mode=0777
+- name: Mount Time Machine at boot
+  when: TIME_MACHINE_ENABLED
+  lineinfile: dest="/etc/fstab" line="{{ TIME_MACHINE_DRIVE }} {{ TIME_MACHINE_MOUNT_POINT }} ext4  defaults,auto,nofail 0 0"
+
+- name: Create Shared mount point
+  when: SHARED_ENABLED
+  file: path="{{ SHARED_MOUNT_POINT }}" state=directory mode=0777
+- name: Mount Shared at boot
+  when: SHARED_ENABLED
+  lineinfile: dest="/etc/fstab" line="{{ SHARED_DRIVE }} {{ SHARED_MOUNT_POINT }} ext4  defaults,auto,nofail 0 0"
+
+- name: Make sure new drives are mounted
+  command: mount -a
+
